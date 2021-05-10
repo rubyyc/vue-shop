@@ -59,6 +59,8 @@ export default {
           } else {
             // return console.log('success')
             this.$message.success('登录成功')
+            window.sessionStorage.setItem('token', res.data.token)
+            this.$router.push('/home')
           }
         }
       })
