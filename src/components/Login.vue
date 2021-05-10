@@ -4,16 +4,16 @@
       <div class="avatar-box">
         <img src="../assets/logo.png" alt />
       </div>
-      <el-form :model="loginForm" class="login-form" label-width="0px">
-        <el-form-item>
+      <el-form ref="loginFormRef" :rules="rules" :model="loginForm" class="login-form" label-width="0px">
+        <el-form-item prop="username">
           <el-input v-model="loginForm.username" prefix-icon="iconfont icon-user"></el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item prop="password">
           <el-input type="password" v-model="loginForm.password" prefix-icon="iconfont icon-3702mima"></el-input>
         </el-form-item>
         <el-form-item class="btns">
-          <el-button type="primary">登录</el-button>
-          <el-button type="info">重置</el-button>
+          <el-button type="primary" @click="validateLogin">登录</el-button>
+          <el-button type="info" @click="resetLoginForm">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -26,14 +26,33 @@ export default {
   data () {
     return {
       loginForm: {
-        username: 'zs',
+        username: 'admin',
         password: '123456'
+      },
+      rules: {
+        username: [
+          { required: true, message: '请输入用户名', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          { min: 6, max: 15, message: '密码长度在6 到 15 个字符', trigger: 'blur' }
+        ]
       }
     }
   },
   components: {},
   mounted () { },
-  methods: {}
+  methods: {
+    resetLoginForm () {
+      console.log(this.$refs.loginFormRef)
+      this.$refs.loginFormRef.resetFields()
+    },
+    validateLogin () {
+      this.$refs.loginFormRef.validate(valid => {
+        console.log(valid)
+      })
+    }
+  }
 }
 </script>
 
